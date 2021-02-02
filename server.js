@@ -15,6 +15,8 @@ async function setupRoutes() {
   app.use(express.json());
 
   app.get('/run-test', async (req, res) => {
+    const REQUEST_URL = 'https://dynahead.wpengine.com/graphql';
+
     const query = `
       query QueryPosts {
         posts {
@@ -38,9 +40,11 @@ async function setupRoutes() {
       }
     `;
 
-    const response = await axios.post('https://dynahead.wpengine.com/graphql', {
+    const response = await axios.post(REQUEST_URL, {
       query,
     });
+
+    console.log('Request done: ', REQUEST_URL);
     return res.status(200).send(response.data.data.posts.nodes);
   });
 }
